@@ -26,12 +26,17 @@ const PendingTasks = () => {
                 minHeight: '100px',
             }}
         >
-            <h3>Pending tasks</h3>
+            <h3>
+                Unprioritised tasks
+                {pendingTasks.length !== 0 && (
+                    <small><br/>Drag tasks to the matrix to prioritize.</small>
+                )}
+            </h3>
             {pendingTasks.map((task) => (
                 <DraggableTask key={task.id} task={task} />
             ))}
             {pendingTasks.length === 0 && (
-                <div>No pending tasks!</div>
+                <div>No unprioritised tasks! Drag here to unprioritize.</div>
             )}
         </div>
     );
