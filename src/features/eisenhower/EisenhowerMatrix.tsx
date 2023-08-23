@@ -48,8 +48,8 @@ function renderTask(task: Task) {
             key={task.id}
             style={{
                 position: 'absolute',
-                maxWidth: '20%',
-                maxHeight: '20%',
+                maxWidth: '250px',
+                // maxHeight: '20%',
                 transform: 'translate(-50%, -50%)',
                 left: `${leftPct * 100}%`,
                 top: `${topPct * 100}%`,

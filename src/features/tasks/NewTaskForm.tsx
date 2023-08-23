@@ -21,6 +21,7 @@ const NewTaskForm = () => {
                 task={initialNewTaskProps}
                 submitLabel="Add task"
                 onSubmit={addTask}
+                keepAfterSubmit={['project']}
             />
 
             {/* Have this here for a lack of a better place */}

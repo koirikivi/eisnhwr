@@ -11,6 +11,7 @@ const TaskSidebar = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '10px',
+                overflowY: 'auto',
             }}
         >
             <PendingTasks />

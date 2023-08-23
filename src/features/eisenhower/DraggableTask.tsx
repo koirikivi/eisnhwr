@@ -32,13 +32,20 @@ const DraggableTask = (props: DraggableTaskProps) => {
             ref={drag}
             className="DraggableTask"
             style={{
-                opacity: isDragging ? 0.0 : 1,
+                opacity: (
+                    isDragging ? 0.0 :
+                        task.completed ? 0.5 : 1
+                ),
                 padding: '5px',
                 cursor: 'move',
                 border: '1px solid black',
                 backgroundColor: 'white',
                 boxSizing: 'border-box',
                 color: 'black',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: '5px',
                 textDecoration: task.completed ? 'line-through' : 'none',
             }}
         >
@@ -54,9 +61,15 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 />
             )}
             {!!task.project && (
-                <strong>{task.project}:&nbsp;</strong>
+                <strong>{task.project}</strong>
             )}
-            {task.name}
+            <span
+                style={{
+                    flexGrow: 1,
+                }}
+            >
+                {task.name}
+            </span>
             {editable && (
                 <button
                     type={'button'}
@@ -68,6 +81,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
                         outline: 'none',
                         background: 'none',
                         cursor: 'pointer',
+                        justifySelf: 'flex-end',
                     }}
                 >
                     <span

@@ -6,6 +6,7 @@ export interface TaskFormProps {
     submitLabel: string;
     onSubmit: (task: Partial<Task>) => void;
     extraButtons?: React.ReactNode;
+    keepAfterSubmit?: (keyof Task)[];
 }
 
 const TaskForm = (props: TaskFormProps) => {
@@ -14,6 +15,7 @@ const TaskForm = (props: TaskFormProps) => {
         submitLabel,
         onSubmit,
         extraButtons,
+        keepAfterSubmit,
     } = props;
     const [editedProps, setEditedProps] = React.useState<Partial<Task>>(task);
 
@@ -35,7 +37,16 @@ const TaskForm = (props: TaskFormProps) => {
         }
 
         onSubmit(editedProps);
-        setEditedProps({});
+
+        const resetedValue: Partial<Task> = {};
+        if (keepAfterSubmit) {
+            for (const key of keepAfterSubmit) {
+                if (editedProps[key] !== undefined) {
+                    resetedValue[key] = (editedProps[key] as any);
+                }
+            }
+        }
+        setEditedProps(resetedValue);
     }, [editedProps, setEditedProps, onSubmit]);
 
     return (
