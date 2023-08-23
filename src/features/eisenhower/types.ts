@@ -1,5 +1,6 @@
 export interface Task {
     id: number;
+    project?: string;
     name: string;
     description: string;
     urgency: number;

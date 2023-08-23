@@ -1,11 +1,14 @@
 import React from 'react';
-import './App.css';
 import EisenhowerMatrix from './features/eisenhower/EisenhowerMatrix';
+import TaskSidebar from './features/eisenhower/TaskSidebar';
+
+import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <EisenhowerMatrix />
+        <EisenhowerMatrix />
+        <TaskSidebar />
     </div>
   );
 }

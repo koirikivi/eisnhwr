@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTasks } from './hooks';
+import { useTaskActions, useNonPendingTasks } from './hooks';
 import { useDrop } from 'react-dnd';
 import {Task} from './types';
 import {useRef} from 'react';
@@ -39,9 +39,32 @@ export interface EisenhowerMatrixProps {
 }
 
 
+function renderTask(task: Task) {
+    const leftPct = 1 - task.urgency;
+    const topPct = 1 - task.importance;
+
+    return (
+        <div
+            key={task.id}
+            style={{
+                position: 'absolute',
+                maxWidth: '20%',
+                maxHeight: '20%',
+                transform: 'translate(-50%, -50%)',
+                left: `${leftPct * 100}%`,
+                top: `${topPct * 100}%`,
+                boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
+            }}
+        >
+            <DraggableTask task={task} />
+        </div>
+    )
+}
+
 const EisenhowerMatrix = (props: EisenhowerMatrixProps) => {
     const containerRef = useRef<HTMLDivElement|null>(null);
-    const { tasks , addTask, updateTask, clearAllTasks } = useTasks();
+    const tasks = useNonPendingTasks();
+    const { addTask, updateTask, clearAllTasks } = useTaskActions();
 
     const [, dropTarget] = useDrop(() => ({
         accept: ItemTypes.TASK,
@@ -64,6 +87,7 @@ const EisenhowerMatrix = (props: EisenhowerMatrixProps) => {
             updateTask(item.id, {
                 importance,
                 urgency,
+                pending: false,
             });
         },
     }), [updateTask]);
@@ -75,55 +99,47 @@ const EisenhowerMatrix = (props: EisenhowerMatrixProps) => {
     }, [dropTarget]);
 
     return (
-        <div className="EisenhowerMatrix">
-            <div
-                ref={drop}
-                style={{
-                    width: 800,
-                    height: 800,
-                    // border: '1px solid black',
-                    backgroundColor: 'white',
-                    position: 'relative',
-                    overflow: 'visible',
-                }}
-            >
-                <Quadrant
-                    description="Important and Urgent"
-                    color="#6a1810"
-                    top={0}
-                    left={0}
-                />
-                <Quadrant
-                    description="Important and Not Urgent"
-                    color="#ac261a"
-                    top={0}
-                    left={0.5}
-                />
-                <Quadrant
-                    description="Not Important and Urgent"
-                    color="#ac261a"
-                    top={0.5}
-                    left={0}
-                />
-                <Quadrant
-                    description="Not Important and Not Urgent"
-                    color="rgb(228, 215, 213)"
-                    top={0.5}
-                    left={0.5}
-                />
-                {tasks.map((task) => (
-                    <DraggableTask key={task.id} task={task} />
-                ))}
-            </div>
-            <div>
-                <button onClick={() => addTask({})}>Add Task</button>
-                <button onClick={() => {
-                    if (window.confirm("Are you sure you want to clear all tasks?")) {
-                        clearAllTasks()
-                    }
-                }}>Clear All Tasks</button>
-            </div>
-        </div>
+        <section
+            className="EisenhowerMatrix"
+            ref={drop}
+            style={{
+                width: '100%',
+                height: '100%',
+                // border: '1px solid black',
+                backgroundColor: 'white',
+                position: 'relative',
+                overflow: 'visible',
+            }}
+        >
+            <Quadrant
+                description="Important and Urgent"
+                color="#6a1810"
+                top={0}
+                left={0}
+            />
+            <Quadrant
+                description="Important and Not Urgent"
+                color="#ac261a"
+                top={0}
+                left={0.5}
+            />
+            <Quadrant
+                description="Not Important and Urgent"
+                color="#ac261a"
+                top={0.5}
+                left={0}
+            />
+            <Quadrant
+                description="Not Important and Not Urgent"
+                color="rgb(228, 215, 213)"
+                top={0.5}
+                left={0.5}
+            />
+            {tasks.map((task) => (
+                // <DraggableTask key={task.id} task={task} />
+                renderTask(task)
+            ))}
+        </section>
     );
 }
 

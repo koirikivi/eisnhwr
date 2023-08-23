@@ -4,10 +4,9 @@ import { atomWithStorage} from 'jotai/utils';
 import { Task } from './types';
 
 const tasksAtom = atomWithStorage<Task[]>('eisnhwr.tasks', []);
-const pendingTasksAtom = atom((get) => get(tasksAtom).filter((task) => task.pending));
 
-export function useTasks() {
-    const [tasks, setTasks] = useAtom(tasksAtom);
+export function useTaskActions() {
+    const [, setTasks] = useAtom(tasksAtom);
 
     const addTask = React.useCallback(
         (addedTask: Partial<Exclude<Task, 'id'>>) => {
@@ -55,10 +54,22 @@ export function useTasks() {
     }, [setTasks]);
 
     return {
-        tasks,
         addTask,
         removeTask,
         updateTask,
         clearAllTasks,
     }
+}
+
+const pendingTasksAtom = atom((get) => get(tasksAtom).filter((task) => task.pending));
+const nonPendingTasksAtom = atom((get) => get(tasksAtom).filter((task) => !task.pending));
+
+export const usePendingTasks = () => {
+    const [pendingTasks] = useAtom(pendingTasksAtom);
+    return pendingTasks;
+}
+
+export const useNonPendingTasks = () => {
+    const [tasks] = useAtom(nonPendingTasksAtom);
+    return tasks;
 }
