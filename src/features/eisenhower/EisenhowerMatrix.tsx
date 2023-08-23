@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useTaskActions, useNonPendingTasks } from './hooks';
+import { useTaskActions, useNonPendingTasks } from '../tasks/hooks';
 import { useDrop } from 'react-dnd';
-import {Task} from './types';
+import {Task} from '../tasks/types';
 import {useRef} from 'react';
 import { ItemTypes } from './dnd';
 import DraggableTask from './DraggableTask';
@@ -64,7 +64,7 @@ function renderTask(task: Task) {
 const EisenhowerMatrix = (props: EisenhowerMatrixProps) => {
     const containerRef = useRef<HTMLDivElement|null>(null);
     const tasks = useNonPendingTasks();
-    const { addTask, updateTask, clearAllTasks } = useTaskActions();
+    const { updateTask } = useTaskActions();
 
     const [, dropTarget] = useDrop(() => ({
         accept: ItemTypes.TASK,

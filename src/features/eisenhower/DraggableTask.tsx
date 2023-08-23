@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Task} from './types';
+import {Task} from '../tasks/types';
 import {useDrag} from 'react-dnd';
 import {ItemTypes} from './dnd';
-import {useSetCurrentlyEditedTask} from './hooks';
+import {useSetCurrentlyEditedTask} from '../tasks/hooks';
 
 interface DraggableTaskProps {
     task: Task;

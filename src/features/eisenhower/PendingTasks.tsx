@@ -1,9 +1,9 @@
 import * as React from 'react';
 import DraggableTask from './DraggableTask';
-import {usePendingTasks, useTaskActions} from './hooks';
+import {usePendingTasks, useTaskActions} from '../tasks/hooks';
 import {useDrop} from 'react-dnd';
 import {ItemTypes} from './dnd';
-import {Task} from './types';
+import {Task} from '../tasks/types';
 
 const PendingTasks = () => {
     const pendingTasks = usePendingTasks();

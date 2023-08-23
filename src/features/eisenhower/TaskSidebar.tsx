@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PendingTasks from './PendingTasks';
-import NewTaskForm from './NewTaskForm';
-import EditTaskForm from './EditTaskForm';
+import NewTaskForm from '../tasks/NewTaskForm';
+import EditTaskForm from '../tasks/EditTaskForm';
 
 const TaskSidebar = () => {
     return (
