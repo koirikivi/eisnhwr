@@ -6,6 +6,8 @@
   grid-template-columns: 1fr 300px;
   grid-template-areas: "matrix sidebar";
   grid-gap: 10px;
+  background-color: #383841;
+  color: #f3f3f3;
 }
 
 .App .EisenhowerMatrix {

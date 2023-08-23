@@ -38,6 +38,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 border: '1px solid black',
                 backgroundColor: 'white',
                 boxSizing: 'border-box',
+                color: 'black',
                 textDecoration: task.completed ? 'line-through' : 'none',
             }}
         >
