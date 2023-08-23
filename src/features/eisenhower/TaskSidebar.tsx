@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PendingTasks from './PendingTasks';
 import NewTaskForm from './NewTaskForm';
+import EditTaskForm from './EditTaskForm';
 
 const TaskSidebar = () => {
     return (
@@ -14,6 +15,7 @@ const TaskSidebar = () => {
         >
             <PendingTasks />
             <NewTaskForm />
+            <EditTaskForm />
         </aside>
     );
 }

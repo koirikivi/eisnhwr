@@ -1,12 +1,48 @@
 import * as React from 'react';
-import { atom, useAtom} from 'jotai';
+import { atom, useSetAtom, useAtomValue, } from 'jotai';
 import { atomWithStorage} from 'jotai/utils';
 import { Task } from './types';
 
 const tasksAtom = atomWithStorage<Task[]>('eisnhwr.tasks', []);
 
+const pendingTasksAtom = atom((get) => get(tasksAtom).filter((task) => task.pending));
+const nonPendingTasksAtom = atom(
+    (get) => (
+        get(tasksAtom).filter((task) => !task.pending && !task.completed)
+    )
+);
+const completedTasksAtom = atom(
+    (get) => get(tasksAtom).filter((task) => task.completed)
+);
+
+
+export const useTasks = () => {
+    return useAtomValue(tasksAtom);
+}
+
+export const useTask = (id: number|null): Task|null => {
+    const tasks = useTasks();
+    return React.useMemo(() => (
+        id === null
+            ? null
+            : (tasks.find((task) => task.id === id) ?? null)
+    ), [tasks, id]);
+}
+
+export const usePendingTasks = () => {
+    return useAtomValue(pendingTasksAtom);
+}
+
+export const useNonPendingTasks = () => {
+    return useAtomValue(nonPendingTasksAtom);
+}
+
+export const useCompletedTasks = () => {
+    return useAtomValue(completedTasksAtom);
+}
+
 export function useTaskActions() {
-    const [, setTasks] = useAtom(tasksAtom);
+    const setTasks = useSetAtom(tasksAtom);
 
     const addTask = React.useCallback(
         (addedTask: Partial<Exclude<Task, 'id'>>) => {
@@ -61,15 +97,16 @@ export function useTaskActions() {
     }
 }
 
-const pendingTasksAtom = atom((get) => get(tasksAtom).filter((task) => task.pending));
-const nonPendingTasksAtom = atom((get) => get(tasksAtom).filter((task) => !task.pending));
+const currentlyEditedTaskIdAtom = atom<number|null>(null);
 
-export const usePendingTasks = () => {
-    const [pendingTasks] = useAtom(pendingTasksAtom);
-    return pendingTasks;
-}
+export const useCurrentlyEditedTask = (): Task|null => {
+    const currentlyEditedTaskId = useAtomValue(currentlyEditedTaskIdAtom);
+    return useTask(currentlyEditedTaskId);
+};
 
-export const useNonPendingTasks = () => {
-    const [tasks] = useAtom(nonPendingTasksAtom);
-    return tasks;
+export const useSetCurrentlyEditedTask = () => {
+    const setCurrentlyEditedTaskId = useSetAtom(currentlyEditedTaskIdAtom);
+    return React.useCallback((task: Pick<Task, 'id'>|null) => {
+        setCurrentlyEditedTaskId(task === null ? null : task.id);
+    }, [setCurrentlyEditedTaskId]);
 }
