@@ -3,7 +3,7 @@ import {useCurrentlyEditedTask, useSetCurrentlyEditedTask, useTaskActions} from 
 import TaskForm from './TaskForm';
 
 const EditTaskForm = () => {
-    const { updateTask } = useTaskActions();
+    const { updateTask, removeTask } = useTaskActions();
     const currentlyEditedTask = useCurrentlyEditedTask();
     const setCurrentlyEditedTask = useSetCurrentlyEditedTask();
 
@@ -16,12 +16,32 @@ const EditTaskForm = () => {
                     <h3>Edit task</h3>
 
                     <TaskForm
+                        key={currentlyEditedTask.id}
                         task={currentlyEditedTask}
-                        submitLabel="Edit task"
+                        submitLabel="Save changes"
                         onSubmit={task => {
                             updateTask(task.id!, task);
                             setCurrentlyEditedTask(null);
                         }}
+                        extraButtons={
+                            <React.Fragment>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if (window.confirm("Are you sure you want to delete this task?")) {
+                                            removeTask(currentlyEditedTask.id!);
+                                            setCurrentlyEditedTask(null);
+                                        }
+                                    }}
+                                >Delete</button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setCurrentlyEditedTask(null);
+                                    }}
+                                >Close</button>
+                            </React.Fragment>
+                        }
                     />
                 </React.Fragment>
             )}

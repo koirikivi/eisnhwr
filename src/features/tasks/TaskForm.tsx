@@ -5,6 +5,7 @@ export interface TaskFormProps {
     task: Partial<Task>;
     submitLabel: string;
     onSubmit: (task: Partial<Task>) => void;
+    extraButtons?: React.ReactNode;
 }
 
 const TaskForm = (props: TaskFormProps) => {
@@ -12,6 +13,7 @@ const TaskForm = (props: TaskFormProps) => {
         task,
         submitLabel,
         onSubmit,
+        extraButtons,
     } = props;
     const [editedProps, setEditedProps] = React.useState<Partial<Task>>(task);
 
@@ -64,9 +66,24 @@ const TaskForm = (props: TaskFormProps) => {
                 value={editedProps.description ?? ''}
                 onChange={editHandler('description')}
             ></textarea>
-            <button onClick={handleSubmit}>
-                {submitLabel}
-            </button>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'stretch',
+                    gap: '5px',
+                }}
+            >
+                <button
+                    onClick={handleSubmit}
+                    style={{
+                        flexGrow: 1,
+                    }}
+                >
+                    {submitLabel}
+                </button>
+                {extraButtons}
+            </div>
         </form>
     );
 }

@@ -8,7 +8,7 @@ const tasksAtom = atomWithStorage<Task[]>('eisnhwr.tasks', []);
 const pendingTasksAtom = atom((get) => get(tasksAtom).filter((task) => task.pending));
 const nonPendingTasksAtom = atom(
     (get) => (
-        get(tasksAtom).filter((task) => !task.pending && !task.completed)
+        get(tasksAtom).filter((task) => !task.pending)
     )
 );
 const completedTasksAtom = atom(
@@ -74,8 +74,13 @@ export function useTaskActions() {
         (id: number, updatedTask: Partial<Exclude<Task, 'id'>>) => {
             setTasks((tasks) => tasks.map((task) => {
                 if (task.id === id) {
+                    const extraProps: Partial<Task> = {};
+                    if (updatedTask.completed && !task.completed) {
+                        extraProps.completedOn = new Date().toISOString();
+                    }
                     return {
                         ...task,
+                        ...extraProps,
                         ...updatedTask,
                     }
                 }
