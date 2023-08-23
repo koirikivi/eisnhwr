@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/eisnhwr/static/css/main.83372750.css",
+    "main.js": "/eisnhwr/static/js/main.fcfc5a72.js",
+    "static/js/787.da6e8bd3.chunk.js": "/eisnhwr/static/js/787.da6e8bd3.chunk.js",
+    "index.html": "/eisnhwr/index.html",
+    "main.83372750.css.map": "/eisnhwr/static/css/main.83372750.css.map",
+    "main.fcfc5a72.js.map": "/eisnhwr/static/js/main.fcfc5a72.js.map",
+    "787.da6e8bd3.chunk.js.map": "/eisnhwr/static/js/787.da6e8bd3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.83372750.css",
+    "static/js/main.fcfc5a72.js"
+  ]
+}
