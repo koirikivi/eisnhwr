@@ -50,7 +50,7 @@ function renderTask(task: Task) {
                 position: 'absolute',
                 maxWidth: '250px',
                 // maxHeight: '20%',
-                transform: 'translate(-50%, -50%)',
+                // transform: 'translate(-50%, -50%)',
                 left: `${leftPct * 100}%`,
                 top: `${topPct * 100}%`,
                 boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)',
@@ -74,7 +74,10 @@ const EisenhowerMatrix = (props: EisenhowerMatrixProps) => {
                 return;
             }
 
-            const clientOffset = monitor.getClientOffset();
+            // getSourceClientOffset uses the offset of the element, not the cursor
+            // to have the translate(-50%, -50%) in DraggableTask, we would need to use getClientOffset
+            // (or calculate the center point by getting the width/height of the dragged element)
+            const clientOffset = monitor.getSourceClientOffset();
             if (!clientOffset) {
                 return;
             }
